@@ -75,13 +75,18 @@ int main(int argc, char* argv[]) {
 
     char *onOrOff[] = {"OFF", "ON"}; 
 
+    if(argc > 3){
+        printf("Invalid command-line argument. Terminating program...");
+        return 0;
+    }
+
     for(int i = 0; i < argc; i++){
         if(i != 0){
-            if(argv[i] == "-q"){
+            if(argv[i][0] == '-' && argv[i][1] == 'q'){
                 quietMode = true;
             }
-            else if(argv[i] == "-x"){
-                extinctMode = true;
+            else if(argv[i][0] == '-' && argv[i][1] == 'x'){
+                extinctMode = false;
             }
             else{
                 printf("Invalid command-line argument. Terminating program...");
@@ -115,7 +120,7 @@ int main(int argc, char* argv[]) {
     //                extinction mode = ON
     
     int numOrgs;
-    printf("Welcome to the Food Web Application\n");
+    printf("\nWelcome to the Food Web Application\n");
     printf("--------------------------------\n");
     if (!quietMode) printf("Enter number of organisms:\n");
     scanf("%d",&numOrgs);
