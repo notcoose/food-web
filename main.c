@@ -47,7 +47,7 @@ void buildWeb(Org* web, int numOrg, int predInd, int preyInd) {
     }
     else{
         int lastIndex = web[predInd].numPrey;
-        fakeRealloc(web[predInd].prey, &web[predInd].numPrey, (web[predInd].numPrey + 1));
+        web[predInd].prey = fakeRealloc(web[predInd].prey, &web[predInd].numPrey, (web[predInd].numPrey + 1));
         web[predInd].prey[lastIndex] = preyInd;
     }
 }
