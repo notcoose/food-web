@@ -8,8 +8,24 @@ typedef struct Org_struct {
     int numPrey;
 } Org;
 
+/*manually malloc space for a new array with modified size, copy over necessary data, 
+free the old array, update the array pointer, and update the size variable*/
+
+int* fakeRealloc(int* ptr, int* size, int newSize){
+    int* newPtr = (int*)malloc(newSize*sizeof(int)); //Mallocs space for new array
+
+    for(int i = 0; i < *size; i++){ //copies over data
+        newPtr[i] = ptr[i];
+    }
+
+    *size = newSize; //updates size
+
+    free(ptr); //frees old array
+    return newPtr; //returns new array
+}
+
 void buildWeb(Org* web, int numOrg, int predInd, int preyInd) {
-    //TODO (Task 1): build the web by adding the predator-prey relation to the food web.
+    /*TODO (Task 1): build the web by adding the predator-prey relation to the food web.
     //      Inputs: 
     //          web - a dynamically allocated array of Orgs 
     //          numOrgs - number of organisms = size of web[]
@@ -22,11 +38,18 @@ void buildWeb(Org* web, int numOrg, int predInd, int preyInd) {
     //      (1) if the predator's prey[] array is empty, allocate memory for one index
     //          otherwise, reallocate predator's prey[] array to allow one more index
     //      (2) append the prey index as the last element of the predator's prey[] array 
-    //      (3) update the numPrey subitem for the predator appropriately 
+    //      (3) update the numPrey subitem for the predator appropriately */
 
-
-
-
+    if(web[predInd].numPrey == 0){ //if prey array is empty
+        web[predInd].prey = (int*)malloc(sizeof(int));
+        web[predInd].prey[0] = preyInd;
+        web[predInd].numPrey = 1;
+    }
+    else{
+        int lastIndex = web[predInd].numPrey;
+        fakeRealloc(web[predInd].prey, &web[predInd].numPrey, (web[predInd].numPrey + 1));
+        web[predInd].prey[lastIndex] = preyInd;
+    }
 }
 
 void extinction(Org** web, int* numOrgs, int index) {
@@ -82,10 +105,10 @@ int main(int argc, char* argv[]) {
 
     for(int i = 0; i < argc; i++){
         if(i != 0){
-            if(argv[i][0] == '-' && argv[i][1] == 'q'){
+            if(argv[i][0] == '-' && argv[i][1] == 'q' && quietMode == false){
                 quietMode = true;
             }
-            else if(argv[i][0] == '-' && argv[i][1] == 'x'){
+            else if(argv[i][0] == '-' && argv[i][1] == 'x' && extinctMode == true){
                 extinctMode = false;
             }
             else{
@@ -97,7 +120,7 @@ int main(int argc, char* argv[]) {
 
     printf("Program Settings:\n  quiet mode = %s\n  extinction mode = %s\n", onOrOff[quietMode], onOrOff[extinctMode]);
 
-    //TODO (Task 0): process command-line arguments & update quietMode and extinctMode
+    /*TODO (Task 0): process command-line arguments & update quietMode and extinctMode
     //      - default values: quietMode = FALSE, extinctMode = TRUE
     //      - if quietMode = FALSE, then print user-input prompt messages        
     //      - if extinctMode = TRUE, then perform the extinction step
@@ -117,7 +140,7 @@ int main(int argc, char* argv[]) {
     //      - Ex: if the program is run as "./a.out", then print
     //              Program Settings:
     //                quiet mode = OFF
-    //                extinction mode = ON
+    //                extinction mode = ON*/
     
     int numOrgs;
     printf("\nWelcome to the Food Web Application\n");
