@@ -2,6 +2,8 @@
 
 In this project, a dynamically allocated food web struct array is built using user input predator-prey relationships. An analysis is done of the food web and done again after a species goes extinct. Whenever a species goes extinct, all relationships and structs are reallocated and modified to erase all signs of the extinct species
 
+**NOTE:** Extinction functionality is not fully working at the moment but the issue is known and will the fix will be implemented when I find free time
+
 ## Installation
 
 To use this project, the only required file is main.c. 
